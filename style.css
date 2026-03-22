@@ -18,15 +18,52 @@ body {
   align-items: center;
 }
 
+/* Reset possible issues */
+.logo * {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
 .logo {
-  font-size: 26px;
-  font-weight: bold;
+  display: flex !important;   /* force row */
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px;
 }
 
-.logo span {
-  color: #38bdf8;
+/* Image fix */
+.logo img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  object-position: left center; /* shows only icon */
+  border-radius: 10px; /* optional */
 }
 
+/* Text container */
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Text style */
+.logo-text h1 {
+  font-size: 22px;
+  margin: 0;
+  font-weight: 600;
+  color: #2c6c8c;
+}
+.logo-text h1 span {
+  color: #1e90ff; /* highlight "Doc" */
+}
+
+.logo-text p {
+  font-size: 10px;
+    letter-spacing: .5px;
+  color: #777;
+}
 .navbar a {
   color: white;
   margin-left: 20px;
