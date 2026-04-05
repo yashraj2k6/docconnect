@@ -64,12 +64,63 @@ body {
     letter-spacing: .5px;
   color: #777;
 }
+.navbar ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
 .navbar a {
   color: white;
   margin-left: 20px;
   text-decoration: none;
   font-weight: bold;
 }
+
+/* Dropdown Styles */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1000;
+  border-radius: 8px;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+
+.dropdown-content li {
+  width: 100%;
+}
+
+.dropdown-content li a {
+  color: #333 !important;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  margin: 0 !important;
+  font-weight: normal !important;
+  transition: 0.3s;
+}
+
+.dropdown-content li a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.status-booked { background: #e3f2fd; color: #1976d2; }
 
 /* HERO SECTION */
 .hero {

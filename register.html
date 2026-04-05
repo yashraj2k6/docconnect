@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - DocConnect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo" style="text-decoration: none;">
+            <img src="media/logo.jpeg" alt="DocConnect Logo">
+            <div class="logo-text">
+                <h1><span>Doc</span> Connect</h1>
+                <p>LINKING PATIENTS & PHYSICIANS</p>
+            </div>
+        </a>
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="doctors.html">Doctor</a>
+                <a href="reviews.html">Reviews</a>
+                <a href="contact.html">Contact</a>
+
+            </ul>
+        </nav>
+    </header>
+
+    <main class="auth-container">
+        <div class="appointment-container" style="max-width: 400px; margin: 50px auto;">
+            <h2>Register</h2>
+            <form id="registerForm">
+                <input type="text" id="regName" placeholder="Full Name" required>
+                <input type="email" id="regEmail" placeholder="Email Address" required>
+                <input type="password" id="regPassword" placeholder="Password" required>
+                <select id="regRole" required>
+                    <option value="patient">Patient</option>
+                    <option value="doctor">Doctor</option>
+                </select>
+                <button type="submit" class="appointment-btn" style="width: 100%; border: none; cursor: pointer;">Register</button>
+            </form>
+            <p style="margin-top: 15px; text-align: center;">Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

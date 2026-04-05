@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Reviews - DocConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .reviews-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .review-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border-left: 5px solid #1976d2;
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .stars {
+            color: #f39c12;
+            font-size: 1.2rem;
+        }
+        .review-text {
+            color: #555;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        .reviewer-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .doctor-name {
+            color: #1976d2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo" style="text-decoration: none;">
+            <img src="media/logo.jpeg" alt="DocConnect Logo">
+            <div class="logo-text">
+                <h1><span>Doc</span> Connect</h1>
+                <p>LINKING PATIENTS & PHYSICIANS</p>
+            </div>
+        </a>
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="doctors.html">Doctor</a>
+                <a href="reviews.html">Reviews</a>
+                <a href="contact.html">Contact</a>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="reviews-container">
+            <div class="services-header" style="margin-bottom: 40px;">
+                <h2>PATIENT FEEDBACK</h2>
+                <div class="line"></div>
+                <p>Real stories from patients who have connected with our trusted doctors.</p>
+            </div>
+
+            <div id="reviewsList">
+                <!-- Dynamically loaded -->
+                <p class="loading">Loading reviews...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 DocConnect. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

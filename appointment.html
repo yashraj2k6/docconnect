@@ -10,13 +10,13 @@
   <header class="header">
 
       <!--  logo name -->
-       <div class="logo">
+       <a href="index.html" class="logo" style="text-decoration: none;">
   <img src="media/logo.jpeg" alt="DocConnect Logo">
   <div class="logo-text">
     <h1><span>Doc</span> Connect</h1>
     <p>LINKING PATIENTS & PHYSICIANS</p>
   </div>
-</div>
+  </a>
       <!--  navbar link  -->
       <nav class="navbar">
 
@@ -25,8 +25,8 @@
 
   <a href="index.html">Home</a>
   <a href="about.html">About</a>
-  <a href="#doctor">doctor</a>
-  <a href="#review">review</a>
+  <a href="doctors.html">Doctor</a>
+  <a href="reviews.html">Reviews</a>
   <a href="contact.html">Contact</a>
 </ul>
 </nav>
@@ -38,25 +38,29 @@
 
     <h2>Book an Appointment</h2>
 
-    <form>
-      <input type="text" placeholder="Full Name" required>
-      <input type="email" placeholder="Email Address" required>
-      <input type="tel" placeholder="Phone Number" required>
-      <input type="date" required>
+    <form id="appointmentForm">
+      <input type="text" id="patientName" placeholder="Full Name" required>
+      <input type="email" id="patientEmail" placeholder="Email Address" required>
+      <input type="tel" id="patientPhone" placeholder="Phone Number" required>
+      <input type="date" id="appointmentDate" required>
 
-      <select required>
-        <option>Select Doctor</option>
-        <option>Dr. Sharma</option>
-        <option>Dr. Patel</option>
+      <select id="doctorSelect" required>
+        <option value="">Select Doctor</option>
       </select>
 
-      <select required>
-        <option>Select Time</option>
+      <select id="appointmentTime" required>
+        <option value="">Select Time</option>
         <option>10:00 AM</option>
+        <option>11:00 AM</option>
         <option>12:00 PM</option>
+        <option>01:00 PM</option>
+        <option>02:00 PM</option>
+        <option>03:00 PM</option>
+        <option>04:00 PM</option>
+        <option>05:00 PM</option>
       </select>
 
-      <textarea placeholder="Describe your problem"></textarea>
+      <textarea id="patientMessage" placeholder="Describe your problem"></textarea>
 
       <button type="submit">Book Now</button>
     </form>
@@ -245,7 +249,7 @@
 </section>
 
 <!--  Frrquently Asked Question -->
-<section class="faq">
+<section class="faq" id="faq">
 
   <h2>Frequently Asked Questions</h2>
 
@@ -302,7 +306,7 @@
             <ul class="arrow-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="#">FAQs</a></li>
+                <li><a href="#faq">FAQs</a></li>
                 <li><a href="#">Sitemap</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>

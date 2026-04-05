@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Doctors - DocConnect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo" style="text-decoration: none;">
+      <img src="media/logo.jpeg" alt="DocConnect Logo">
+      <div class="logo-text">
+        <h1><span>Doc</span> Connect</h1>
+        <p>LINKING PATIENTS & PHYSICIANS</p>
+      </div>
+    </a>
+    <nav class="navbar">
+      <ul class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="doctors.html">Doctor</a>
+        <a href="contact.html">Contact</a>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="services-section">
+      <div class="services-header">
+        <h2>OUR DOCTORS</h2>
+        <div class="line"></div>
+        <p>Meet our panel of experienced and dedicated doctors ready to provide you with the best healthcare.</p>
+      </div>
+
+      <div class="services-content">
+        <div id="doctorsContainer" class="services-cards">
+          <!-- Doctors will be rendered here dynamically -->
+          <div class="loading">Loading doctors...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-col brand-info">
+            <div class="footer-logo">
+                <img src="media/dc logo.jpeg" alt="DocConnect Logo">
+                <p>Wellness Everyday</p>
+            </div>
+            <div class="contact-item">
+                <div class="icon-box-small"><i class="fas fa-phone-alt"></i></div>
+                <span>Call us : +91 98923 83580</span>
+            </div>
+            <div class="contact-item">
+                <div class="icon-box-small"><i class="fas fa-envelope"></i></div>
+                <span>Email : care@docconnect.in</span>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h3>USEFUL LINKS</h3>
+            <div class="title-line"></div>
+            <ul class="arrow-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="doctors.html">Doctors</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h3>OPENING HOURS</h3>
+            <div class="title-line"></div>
+            <p class="opening-text">Available 24/7</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 DocConnect. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

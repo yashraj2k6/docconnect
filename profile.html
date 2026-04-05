@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - DocConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .profile-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 40px auto;
+        }
+        .profile-header {
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .profile-section {
+            margin-bottom: 30px;
+        }
+        .profile-section h3 {
+            margin-bottom: 15px;
+            color: #1976d2;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        .tab-menu {
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 25px;
+        }
+        .tab-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .tab-item.active {
+            border-bottom: 3px solid #1976d2;
+            color: #1976d2;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo" style="text-decoration: none;">
+            <img src="media/logo.jpeg" alt="DocConnect Logo">
+            <div class="logo-text">
+                <h1><span>Doc</span> Connect</h1>
+                <p>LINKING PATIENTS & PHYSICIANS</p>
+            </div>
+        </a>
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="doctors.html">Doctor</a>
+                <a href="reviews.html">Reviews</a>
+                <a href="contact.html">Contact</a>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="profile-card">
+            <div class="profile-header">
+                <h2>My Profile</h2>
+                <span id="roleBadge" class="status-badge status-booked">Loading...</span>
+            </div>
+
+            <div class="tab-menu">
+                <div class="tab-item active" data-tab="basicInfo">Basic Info</div>
+                <div id="doctorTab" class="tab-item" data-tab="doctorInfo" style="display: none;">Doctor Details</div>
+                <div class="tab-item" data-tab="security">Security</div>
+            </div>
+
+            <!-- Basic Info Tab -->
+            <div id="basicInfo" class="tab-content active">
+                <form id="basicInfoForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="profName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="profEmail" required>
+                    </div>
+                    <button type="submit" class="appointment-btn">Update Profile</button>
+                </form>
+            </div>
+
+            <!-- Doctor Info Tab (Conditional) -->
+            <div id="doctorInfo" class="tab-content">
+                <form id="doctorProfileEditForm">
+                    <div class="form-group">
+                        <label>Specialization</label>
+                        <input type="text" id="editSpec" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Years of Experience</label>
+                        <input type="number" id="editExp" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Consultation Fees (₹)</label>
+                        <input type="number" id="editFees" required>
+                    </div>
+                    <!-- Availability handling would go here, simplified for now -->
+                    <button type="submit" class="appointment-btn">Update Doctor Profile</button>
+                </form>
+            </div>
+
+            <!-- Security Tab -->
+            <div id="security" class="tab-content">
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="oldPass" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="newPass" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="confirmPass" required>
+                    </div>
+                    <button type="submit" class="appointment-btn">Change Password</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 DocConnect. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
