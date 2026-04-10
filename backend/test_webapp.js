@@ -10,9 +10,9 @@ const testFlow = async () => {
     console.log("1️⃣ Registering Doctor...");
     try {
         const drReg = await axios.post(`${API_URL}/auth/register`, {
-        name: "Dr. Web Test",
-        email: `doctor_${Date.now()}@test.com`,
-        password: "password123",
+        name: " Web Test",
+        email: `abcd@gmail.com`,
+        password: "123456",
         role: "doctor"
         });
         const drToken = drReg.data.token;

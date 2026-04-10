@@ -336,12 +336,50 @@ document.addEventListener("DOMContentLoaded", function () {
                         document.getElementById("editSpec").value = myDocProfile.specialization;
                         document.getElementById("editExp").value = myDocProfile.experience;
                         document.getElementById("editFees").value = myDocProfile.fees;
+                        
+                        const availContainer = document.getElementById("availabilityEditContainer");
+                        if (availContainer) {
+                            availContainer.innerHTML = "";
+                            (myDocProfile.availability || []).forEach(a => {
+                                addAvailabilityRow(availContainer, a.day, a.timeSlots.join(", "));
+                            });
+                        }
                     }
                 }
             } catch (err) {
                 console.error(err);
             }
         };
+
+        function addAvailabilityRow(container, day = "Monday", slots = "") {
+            const row = document.createElement("div");
+            row.className = "availability-edit-row";
+            row.style = "display: flex; gap: 10px; margin-bottom: 10px; align-items: center;";
+            row.innerHTML = `
+                <select class="edit-avail-day" style="flex: 1;">
+                    <option value="Monday" ${day==='Monday'?'selected':''}>Monday</option>
+                    <option value="Tuesday" ${day==='Tuesday'?'selected':''}>Tuesday</option>
+                    <option value="Wednesday" ${day==='Wednesday'?'selected':''}>Wednesday</option>
+                    <option value="Thursday" ${day==='Thursday'?'selected':''}>Thursday</option>
+                    <option value="Friday" ${day==='Friday'?'selected':''}>Friday</option>
+                    <option value="Saturday" ${day==='Saturday'?'selected':''}>Saturday</option>
+                    <option value="Sunday" ${day==='Sunday'?'selected':''}>Sunday</option>
+                </select>
+                <input type="text" class="edit-avail-slots" placeholder="e.g. 10:00 AM, 11:00 AM" value="${slots}" style="flex: 2;" required>
+                <button type="button" class="remove-day-btn" style="color:red; background:none; border:none; cursor:pointer;"><i class="fas fa-trash"></i></button>
+            `;
+            container.appendChild(row);
+            row.querySelector(".remove-day-btn").onclick = () => row.remove();
+        }
+
+        const addDayProfileBtn = document.getElementById("addDayProfileBtn");
+        if (addDayProfileBtn) {
+            addDayProfileBtn.onclick = () => {
+                const container = document.getElementById("availabilityEditContainer");
+                addAvailabilityRow(container);
+            };
+        }
+
         fetchProfile();
 
         const tabs = document.querySelectorAll(".tab-item");
@@ -357,8 +395,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.getElementById("basicInfoForm").onsubmit = async (e) => {
             e.preventDefault();
-            const res = await authFetch(`${API_URL}/auth/update`, {
+            const res = await fetch(`${API_URL}/auth/update`, {
                 method: "PUT",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
                 body: JSON.stringify({
                     name: profName.value,
                     email: document.getElementById("profEmail").value
@@ -369,12 +411,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.getElementById("doctorProfileEditForm").onsubmit = async (e) => {
             e.preventDefault();
-            const res = await authFetch(`${API_URL}/doctors/profile`, {
+            
+            const availability = [];
+            document.querySelectorAll(".availability-edit-row").forEach(row => {
+                const day = row.querySelector(".edit-avail-day").value;
+                const timeSlots = row.querySelector(".edit-avail-slots").value.split(",").map(s => s.trim()).filter(s => s);
+                if (day && timeSlots.length > 0) {
+                    availability.push({ day, timeSlots });
+                }
+            });
+
+            const res = await fetch(`${API_URL}/doctors/profile`, {
                 method: "PUT",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
                 body: JSON.stringify({
                     specialization: document.getElementById("editSpec").value,
                     experience: document.getElementById("editExp").value,
-                    fees: document.getElementById("editFees").value
+                    fees: document.getElementById("editFees").value,
+                    availability
                 })
             });
             if (res.ok) alert("Doctor details updated!");

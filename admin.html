@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocConnect Pro Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #64748b;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --border: #e2e8f0;
+      --sidebar-width: 260px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: var(--background); color: var(--text); overflow-x: hidden; }
+
+    /* Login Screen */
+    #loginSection {
+      height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    }
+    .login-card {
+      background: var(--surface);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-card img { width: 80px; margin-bottom: 20px; border-radius: 12px; }
+    .login-card h2 { margin-bottom: 8px; font-weight: 700; color: #1e293b; }
+    .login-card p { color: var(--secondary); margin-bottom: 24px; font-size: 0.9rem; }
+    .input-group { text-align: left; margin-bottom: 16px; }
+    .input-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #475569; }
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: 0.2s;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    /* Dashboard Layout */
+    #dashboardSection { display: none; min-height: 100vh; }
+    .sidebar {
+      width: var(--sidebar-width);
+      background: #1e293b;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+    .sidebar-brand img { width: 32px; border-radius: 6px; }
+    .sidebar-brand h1 { font-size: 1.25rem; font-weight: 700; }
+    
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: #94a3b8;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .nav-link:hover { background: rgba(255,255,255,0.05); color: white; }
+    .nav-link.active { background: var(--primary); color: white; }
+
+    .main-content { margin-left: var(--sidebar-width); padding: 40px; width: calc(100% - var(--sidebar-width)); }
+
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px; }
+    .stat-card {
+      background: var(--surface);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .blue { background: #eff6ff; color: #2563eb; }
+    .green { background: #f0fdf4; color: #16a34a; }
+    .purple { background: #faf5ff; color: #9333ea; }
+    .orange { background: #fff7ed; color: #ea580c; }
+
+    /* Table */
+    .table-container { background: var(--surface); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; display: none; }
+    .table-container.active { display: block; }
+    .table-header { padding: 20px 24px; border-bottom: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 16px 24px; background: #f8fafc; font-size: 0.75rem; color: var(--secondary); text-transform: uppercase; }
+    td { padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .actions { display: flex; gap: 8px; }
+    .btn-icon { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .btn-edit:hover { color: var(--warning); border-color: var(--warning); }
+    .btn-delete:hover { color: var(--danger); border-color: var(--danger); }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 16px; overflow: hidden; }
+    .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 24px; }
+    .modal-footer { padding: 16px 24px; background: #f8fafc; display: flex; justify-content: flex-end; gap: 12px; }
+    .edit-form label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+    .edit-form input, .edit-form select { width: 100%; padding: 10px; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- Login -->
+  <section id="loginSection">
+    <div class="login-card">
+      <img src="media/logo.jpeg" alt="Logo">
+      <h2>Admin Login</h2>
+      <p>Enter ID: <b>admin</b> & Pass: <b>123456</b></p>
+      <form id="adminLoginForm">
+        <div class="input-group"><label>Admin ID</label><input type="text" id="adminId" required></div>
+        <div class="input-group"><label>Password</label><input type="password" id="adminPassword" required></div>
+        <button type="submit" class="login-btn">Sign In</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dashboardSection">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><h1>Doc<span>Connect</span></h1></div>
+      <div class="nav-link active" onclick="switchTab('usersTable', this)"><i class="fas fa-users"></i><span>Users</span></div>
+      <div class="nav-link" onclick="switchTab('doctorsTable', this)"><i class="fas fa-user-md"></i><span>Doctors</span></div>
+      <div class="nav-link" onclick="switchTab('appointmentsTable', this)"><i class="fas fa-calendar"></i><span>Bookings</span></div>
+      <div class="nav-link" onclick="switchTab('reviewsTable', this)"><i class="fas fa-star"></i><span>Reviews</span></div>
+      <div class="nav-link" style="margin-top:auto; color:var(--danger)" onclick="logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+    </aside>
+
+    <main class="main-content">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div class="stat-info"><h3 id="statUsers">0</h3><p>Users</p></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="fas fa-user-md"></i></div><div class="stat-info"><h3 id="statDoctors">0</h3><p>Doctors</p></div></div>
+        <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-calendar"></i></div><div class="stat-info"><h3 id="statAppointments">0</h3><p>Bookings</p></div></div>
+        <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-star"></i></div><div class="stat-info"><h3 id="statReviews">0</h3><p>Reviews</p></div></div>
+      </div>
+
+      <div id="usersTable" class="table-container active"><div class="table-header"><h2>Users</h2></div><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead><tbody id="usersList"></tbody></table></div>
+      <div id="doctorsTable" class="table-container"><div class="table-header"><h2>Doctors</h2></div><table><thead><tr><th>Name</th><th>Spec</th><th>Exp</th><th>Actions</th></tr></thead><tbody id="doctorsList"></tbody></table></div>
+      <div id="appointmentsTable" class="table-container"><div class="table-header"><h2>Bookings</h2></div><table><thead><tr><th>Doc</th><th>Patient</th><th>Status</th><th>Actions</th></tr></thead><tbody id="appointmentsList"></tbody></table></div>
+      <div id="reviewsTable" class="table-container"><div class="table-header"><h2>Reviews</h2></div><table><thead><tr><th>Doc</th><th>Patient</th><th>Rating</th><th>Actions</th></tr></thead><tbody id="reviewsList"></tbody></table></div>
+    </main>
+  </section>
+
+  <!-- Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Edit Record</h3><button class="close-modal" onclick="closeModal()">&times;</button></div>
+      <form id="editForm">
+        <div class="modal-body">
+          <input type="hidden" id="editType"><input type="hidden" id="editId">
+          <div id="dynamicFields" class="edit-form"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="closeModal()">Cancel</button>
+          <button type="submit" style="background:var(--primary); color:white; border:none; padding:8px 16px; border-radius:8px;">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:5001/api";
+    let allData = {};
+
+    window.onload = () => {
+      if (localStorage.getItem("adminToken")) showDashboard();
+      else document.getElementById("loginSection").style.display = "flex";
+    };
+
+    document.getElementById("adminLoginForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const res = await fetch(`${API_URL}/admin/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: adminId.value, password: adminPassword.value })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("adminToken", data.token);
+        showDashboard();
+      } else alert("Invalid Login");
+    };
+
+    function showDashboard() {
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("dashboardSection").style.display = "block";
+      fetchData();
+    }
+
+    async function fetchData() {
+      const res = await fetch(`${API_URL}/admin/data`, {
+        headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` }
+      });
+      if (!res.ok) return logout();
+      allData = await res.json();
+      updateUI();
+    }
+
+    function updateUI() {
+      document.getElementById("statUsers").innerText = allData.users.length;
+      document.getElementById("statDoctors").innerText = allData.doctors.length;
+      document.getElementById("statAppointments").innerText = allData.appointments.length;
+      document.getElementById("statReviews").innerText = allData.reviews.length;
+
+      document.getElementById("usersList").innerHTML = allData.users.map(u => `<tr><td>${u.name}</td><td>${u.email}</td><td>${u.role}</td><td class="actions"><button class="btn-icon btn-edit" onclick="openEdit('user','${u._id}')"><i class="fas fa-edit"></i></button><button class="btn-icon btn-delete" onclick="deleteItem('user','${u._id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+      document.getElementById("doctorsList").innerHTML = allData.doctors.map(d => `<tr><td>${d.userId?.name}</td><td>${d.specialization}</td><td>${d.experience}</td><td class="actions"><button class="btn-icon btn-edit" onclick="openEdit('doctor','${d._id}')"><i class="fas fa-edit"></i></button><button class="btn-icon btn-delete" onclick="deleteItem('doctor','${d._id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+      document.getElementById("appointmentsList").innerHTML = allData.appointments.map(a => `<tr><td>${a.doctorId?.userId?.name}</td><td>${a.patientId?.name}</td><td>${a.status}</td><td class="actions"><button class="btn-icon btn-edit" onclick="openEdit('appointment','${a._id}')"><i class="fas fa-edit"></i></button><button class="btn-icon btn-delete" onclick="deleteItem('appointment','${a._id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+      document.getElementById("reviewsList").innerHTML = allData.reviews.map(r => `<tr><td>${r.doctorId?.userId?.name}</td><td>${r.patientId?.name}</td><td>${r.rating}</td><td class="actions"><button class="btn-icon btn-edit" onclick="openEdit('review','${r._id}')"><i class="fas fa-edit"></i></button><button class="btn-icon btn-delete" onclick="deleteItem('review','${r._id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+    }
+
+    function switchTab(id, el) {
+      document.querySelectorAll('.table-container').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      el.classList.add('active');
+    }
+
+    function openEdit(type, id) {
+      document.getElementById("editType").value = type;
+      document.getElementById("editId").value = id;
+      const fields = document.getElementById("dynamicFields");
+      let item;
+      if(type==='user') {
+        item = allData.users.find(u => u._id === id);
+        fields.innerHTML = `<label>Name</label><input type="text" name="name" value="${item.name}"><label>Email</label><input type="text" name="email" value="${item.email}">`;
+      } else if(type==='doctor') {
+        item = allData.doctors.find(d => d._id === id);
+        let availHtml = (item.availability || []).map((a, i) => `
+          <div class="avail-row" style="border:1px solid #eee; padding:10px; margin-bottom:10px; border-radius:8px;">
+            <label>Day</label><input type="text" name="avail_day_${i}" value="${a.day}">
+            <label>Slots (comma separated)</label><input type="text" name="avail_slots_${i}" value="${a.timeSlots.join(', ')}">
+          </div>
+        `).join('');
+        fields.innerHTML = `
+          <label>Spec</label><input type="text" name="specialization" value="${item.specialization}">
+          <label>Exp</label><input type="number" name="experience" value="${item.experience}">
+          <label>Fees</label><input type="number" name="fees" value="${item.fees}">
+          <h4 style="margin-bottom:10px;">Availability</h4>
+          <div id="availContainer">${availHtml}</div>
+          <button type="button" onclick="addAvailRow()" style="font-size:0.8rem; margin-bottom:10px;">+ Add Day</button>
+        `;
+      } else if(type==='appointment') {
+        item = allData.appointments.find(a => a._id === id);
+        fields.innerHTML = `<label>Status</label><select name="status"><option ${item.status==='booked'?'selected':''}>booked</option><option ${item.status==='completed'?'selected':''}>completed</option></select>`;
+      } else if(type==='review') {
+        item = allData.reviews.find(r => r._id === id);
+        fields.innerHTML = `<label>Rating</label><input type="number" name="rating" value="${item.rating}"><label>Comment</label><input type="text" name="comment" value="${item.comment}">`;
+      }
+      document.getElementById("editModal").style.display = "flex";
+    }
+
+    function closeModal() { document.getElementById("editModal").style.display = "none"; }
+
+    function addAvailRow() {
+      const container = document.getElementById("availContainer");
+      const i = container.children.length;
+      const div = document.createElement("div");
+      div.className = "avail-row";
+      div.style = "border:1px solid #eee; padding:10px; margin-bottom:10px; border-radius:8px;";
+      div.innerHTML = `
+        <label>Day</label><input type="text" name="avail_day_${i}" placeholder="e.g. Monday">
+        <label>Slots (comma separated)</label><input type="text" name="avail_slots_${i}" placeholder="e.g. 10:00 AM, 11:00 AM">
+      `;
+      container.appendChild(div);
+    }
+
+    document.getElementById("editForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const type = document.getElementById("editType").value;
+      const id = document.getElementById("editId").value;
+      const formData = new FormData(e.target);
+      let updates = Object.fromEntries(formData.entries());
+
+      // Special handling for doctor availability
+      if (type === 'doctor') {
+        const availability = [];
+        let i = 0;
+        while (updates[`avail_day_${i}`] !== undefined) {
+          const day = updates[`avail_day_${i}`];
+          const slots = updates[`avail_slots_${i}`].split(',').map(s => s.trim()).filter(s => s);
+          if (day && slots.length) {
+            availability.push({ day, timeSlots: slots });
+          }
+          delete updates[`avail_day_${i}`];
+          delete updates[`avail_slots_${i}`];
+          i++;
+        }
+        updates.availability = availability;
+      }
+
+      const res = await fetch(`${API_URL}/admin/${type}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem("adminToken")}` },
+        body: JSON.stringify(updates)
+      });
+      if(res.ok) { closeModal(); fetchData(); }
+    };
+
+    async function deleteItem(type, id) {
+      if(!confirm("Delete?")) return;
+      await fetch(`${API_URL}/admin/${type}/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` }
+      });
+      fetchData();
+    }
+
+    function logout() { localStorage.removeItem("adminToken"); window.location.reload(); }
+  </script>
+</body>
+</html>
